@@ -1,0 +1,183 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout=http://www.ultraq.net.nz/thymeleaf/layout
+      layout:decorate='~{layouts/layout1}'>
+
+
+<div layout:fragment="content">
+
+    <!-- Single Page Header start -->
+    <div class="container-fluid page-header py-5">
+        <h1 class="text-center text-white display-6">영화상세</h1>
+        <ol class="breadcrumb justify-content-center mb-0">
+            <li class="breadcrumb-item text-secondary"><a href="/">메인으로 돌아가기</a></li>
+            <li class="breadcrumb-item text-secondary"><a href="/movies">영화목록</a></li>
+        </ol>
+    </div>
+    <!-- Single Page Header End -->
+
+
+    <!-- Single Product Start -->
+    <div class="container-fluid py-5 mt-5">
+        <div class="container py-5">
+            <div class="row g-1 mb-5">
+                <div class="col-lg-12 col-xl-12">
+                    <div class="row g-4" th:object="${movieDTO}">
+                        <div class="col-lg-5">
+                            <div class="border rounded">
+                                <a href="#">
+                                    <img th:src="${movieDTO.posterImage}" class="img-fluid rounded" style="height: 100%; width: 100%" alt="Image">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-lg-7">
+                            <div class="testimonial-item img-border-radius bg-light rounded p-4">
+                            <h4 class="fw-bold mb-2 display-6" th:text="${movieDTO.title}">주제</h4>
+                            <p class="fw-bold mb-2" th:text="${movieDTO.synopsis}">줄거리</p>
+                                <p class="fa fa-star text-secondary display-6" th:text="${movieDTO.score}"></p>
+                                <br>
+                                <span class="text-dark fw-bold mb-2">장르 : </span><p th:text="${movieDTO.genreName}"></p>
+                                <span class="text-dark fw-bold mb-2">국가 : </span><p th:text="${movieDTO.countryName}"></p>
+                                <span class="text-dark fw-bold mb-2">러닝타임 : </span><p th:text="${movieDTO.runningTime} + 분"></p>
+                                <span class="text-dark fw-bold mb-2">개봉일 : </span><p th:text="${movieDTO.releaseDate}"></p>
+                                <span class="text-dark fw-bold mb-2">장르 : </span><p th:text="${movieDTO.genreName}"></p>
+                                <span class="text-dark fw-bold mb-2">감독 : </span><p th:text="${movieDTO.name}"></p>
+                                <span class="text-dark fw-bold mb-2">출연자 : </span><p th:text="${movieDTO.actor}"></p>
+                                <span class="text-dark fw-bold mb-2">출연자 : </span><p th:text="${movieDTO.actor}"></p>
+                                <span class="text-dark fw-bold mb-2">관람 등급 : </span><p th:text="${movieDTO.ratingName}"></p>
+
+                        </div>
+                        </div>
+                        <form action="/addReview" role="form" method="post" th:object="${reviewDTO}">
+                            <h4 class="mb-5 fw-bold">리뷰창</h4>
+                            <div class="row g-4">
+                                <div class="col-lg-12">
+                                    <div class="border-bottom rounded my-4">
+                                        <textarea name="reviewContent" id="reviewContent" class="form-control border-0" cols="30" rows="8" placeholder="리뷰를 남겨주세요." spellcheck="false"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="d-flex justify-content-between py-3 mb-5">
+                                        <div class="d-flex align-items-center">
+                                            <p class="mb-0 me-3">별점:</p>
+                                            <div class="d-flex align-items-center rating" style="font-size: 12px;">
+                                                <span class="rating__result"></span>
+                                                <i class="rating__star far fa-star" onclick="setRating(1)"></i>
+                                                <i class="rating__star far fa-star" onclick="setRating(2)"></i>
+                                                <i class="rating__star far fa-star" onclick="setRating(3)"></i>
+                                                <i class="rating__star far fa-star" onclick="setRating(4)"></i>
+                                                <i class="rating__star far fa-star" onclick="setRating(5)"></i>
+                                            </div>
+                                            <input type="hidden" id="reviewScore" name="reviewScore">
+                                        </div>
+                                        <button type="submit" class="btn border border-secondary text-primary rounded-pill px-4 py-3"> 작성하기</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+                        <!-- 여기 리뷰, 댓글 시작-->
+                        <div class="col-lg-12">
+                            <nav>
+                                <div class="nav nav-tabs mb-3">
+                                    <button class="nav-link active border-white border-bottom-0" type="button" role="tab"
+                                            id="nav-about-tab" data-bs-toggle="tab" data-bs-target="#nav-about"
+                                            aria-controls="nav-about" aria-selected="true">Description</button>
+                                    <button class="nav-link border-white border-bottom-0" type="button" role="tab"
+                                            id="nav-mission-tab" data-bs-toggle="tab" data-bs-target="#nav-mission"
+                                            aria-controls="nav-mission" aria-selected="false">Reviews</button>
+                                </div>
+                            </nav>
+                            <div class="tab-content mb-5">
+                                <div class="tab-pane active" id="nav-about" role="tabpanel" aria-labelledby="nav-about-tab">
+                                    <div class="d-flex">
+                                        <img src="img/avatar.jpg" class="img-fluid rounded-circle p-3" style="width: 100px; height: 100px;" alt="">
+                                        <div class="">
+                                            <p class="mb-2" style="font-size: 14px;">April 12, 2024</p>
+                                            <div class="d-flex justify-content-between">
+                                                <h5>Jason Smith</h5>
+                                                <div class="d-flex mb-3">
+                                                    <i class="fa fa-star text-secondary"></i>
+                                                    <i class="fa fa-star text-secondary"></i>
+                                                    <i class="fa fa-star text-secondary"></i>
+                                                    <i class="fa fa-star text-secondary"></i>
+                                                    <i class="fa fa-star"></i>
+                                                </div>
+                                            </div>
+                                            <p>여기 리뷰창</p>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex">
+                                        <img src="img/avatar.jpg" class="img-fluid rounded-circle p-3" style="width: 100px; height: 100px;" alt="">
+                                        <div class="">
+                                            <p class="mb-2" style="font-size: 14px;">April 12, 2024</p>
+                                            <div class="d-flex justify-content-between">
+                                                <h5>Sam Peters</h5>
+                                                <div class="d-flex mb-3">
+                                                    <i class="fa fa-star text-secondary"></i>
+                                                    <i class="fa fa-star text-secondary"></i>
+                                                    <i class="fa fa-star text-secondary"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                </div>
+                                            </div>
+                                            <p class="text-dark">The generated Lorem Ipsum is therefore always free from repetition injected humour, or non-characteristic
+                                                words etc. Susp endisse ultricies nisi vel quam suscipit </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="nav-mission" role="tabpanel" aria-labelledby="nav-mission-tab">
+                                    <div class="d-flex">
+                                        <img src="img/avatar.jpg" class="img-fluid rounded-circle p-3" style="width: 100px; height: 100px;" alt="">
+                                        <div class="">
+                                            <p class="mb-2" style="font-size: 14px;">April 12, 2024</p>
+                                            <div class="d-flex justify-content-between">
+                                                <h5>Jason Smith</h5>
+                                                <div class="d-flex mb-3">
+                                                    <i class="fa fa-star text-secondary"></i>
+                                                    <i class="fa fa-star text-secondary"></i>
+                                                    <i class="fa fa-star text-secondary"></i>
+                                                    <i class="fa fa-star text-secondary"></i>
+                                                    <i class="fa fa-star"></i>
+                                                </div>
+                                            </div>
+                                            <p>The generated Lorem Ipsum is therefore always free from repetition injected humour, or non-characteristic
+                                                words etc. Susp endisse ultricies nisi vel quam suscipit </p>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex">
+                                        <img src="img/avatar.jpg" class="img-fluid rounded-circle p-3" style="width: 100px; height: 100px;" alt="">
+                                        <div class="">
+                                            <p class="mb-2" style="font-size: 14px;">April 12, 2024</p>
+                                            <div class="d-flex justify-content-between">
+                                                <h5>Sam Peters</h5>
+                                                <div class="d-flex mb-3">
+                                                    <i class="fa fa-star text-secondary"></i>
+                                                    <i class="fa fa-star text-secondary"></i>
+                                                    <i class="fa fa-star text-secondary"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                </div>
+                                            </div>
+                                            <p class="text-dark">The generated Lorem Ipsum is therefore always free from repetition injected humour, or non-characteristic
+                                                words etc. Susp endisse ultricies nisi vel quam suscipit </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="nav-vision" role="tabpanel">
+                                    <p class="text-dark">Tempor erat elitr rebum at clita. Diam dolor diam ipsum et tempor sit. Aliqu diam
+                                        amet diam et eos labore. 3</p>
+                                    <p class="mb-0">Diam dolor diam ipsum et tempor sit. Aliqu diam amet diam et eos labore.
+                                        Clita erat ipsum et lorem et sit</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 여기 리뷰, 댓글 끝 -->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- Single Product End -->
+</div>
+</html>

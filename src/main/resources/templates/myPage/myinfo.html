@@ -1,0 +1,91 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout=http://www.ultraq.net.nz/thymeleaf/layout
+      layout:decorate='~{layouts/layout1}'>
+<!--타임리프 사용하는거 가져오기-->
+
+<th:block layout:fragment="script">
+    <script>
+        document.getElementById("deactivateButton").addEventListener("click", function(event) {
+            event.preventDefault(); // 기본 동작 방지
+
+    // 사용자로부터 확인 받을 수도 있습니다.
+    var confirmDeactivation = confirm("정말 회원을 탈퇴하시겠습니까?");
+    if (confirmDeactivation) {
+    var email = [[${#authentication.principal.username}]]
+    deactivateMember(email);
+    }
+    });
+
+    function deactivateMember(email) {
+    fetch("/members/deactivate?email=" + email, {
+    method: "PATCH",
+    credentials: "same-origin"
+    })
+    .then(response => {
+    if (!response.ok) {
+    throw new Error("회원 탈퇴에 실패했습니다.");
+    }
+    return response.text();
+    })
+    .then(data => {
+    alert(data); // 탈퇴 완료 메시지 표시
+    window.location.href = "/"; // 메인 페이지로 리다이렉트
+    })
+    .catch(error => {
+    console.error("Error:", error);
+    alert("회원 탈퇴 중 오류가 발생했습니다.");
+    });
+    }
+    </script>
+</th:block>
+
+
+<th:block layout:fragment="content">
+    <!-- Checkout Page Start -->
+
+<!--    <form action="/deactivate" id="changePwdForm" method="post">-->
+        <form id="withdrawForm" th:object="${member}" th:action="@{/members/deactivate}" method="post">
+            <div class="container py-5">
+                <h1 class="mb-4 mt-5 text-center">내 정보</h1>
+                <div class="d-flex justify-content-end" style="width: 80%;">
+                    <button id="deactivateButton" class="btn border-secondary py-1 px-2 text-uppercase text-primary" style="width: 20%;">회원탈퇴</button>
+            </div>
+
+            <!--            <form action="/members/new" role="form" method="post" th:object="${memberFormDTO}">-->
+                <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 mx-auto" th:each="member : ${members}">
+                    <div>
+                        <div class="form-item">
+                            <label class="form-label my-3" th:for="nickname">닉네임<sup>*</sup></label>
+                            <input type="text" class="form-control" th:value="${member.nickname}" readonly>
+                        </div>
+                        <div class="form-item">
+                            <label class="form-label my-3" th:for="email">이메일 <sup>*</sup></label>
+                            <input type="email" class="form-control" th:value="${member.email}" readonly>
+                        </div>
+                        <div class="form-item">
+                            <label class="form-label my-3" th:for="email">가입일 <sup>*</sup></label>
+                             <input type="joinDate" class="form-control" th:value="${member.joinDate}" readonly></span>
+                        </div>
+                        <div class="form-item">
+                            <label class="form-label my-3" th:for="password">비밀번호 <sup>*</sup></label>
+                            <input type="password" class="form-control" th:value="${member.password}" readonly></span>
+
+                        </div>
+
+                        <!--                            <div class="form-check my-3">
+                                                        <input type="checkbox" class="form-check-input" id="Account-1" name="Accounts" value="Accounts">
+                                                        <label class="form-check-label" for="Account-1">Create an account?</label>
+                                                    </div>-->
+
+                        <div class="row g-4 text-center align-items-center justify-content-center pt-4">
+                            <div class="d-flex justify-content-between">
+<!--                                <button type="submit" class="btn border-secondary py-1 px-3 text-uppercase text-primary">비밀번호 수정</button>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <!-- Checkout Page End -->
+    </th:block>
+</html>

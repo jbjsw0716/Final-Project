@@ -1,0 +1,97 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout=http://www.ultraq.net.nz/thymeleaf/layout
+      layout:decorate='~{layouts/layout1}'>
+
+
+<div layout:fragment="content">
+
+
+    <!-- Single Page Header start -->
+    <div class="container-fluid page-header py-5">
+        <h1 class="text-center text-white display-6">마이페이지</h1>
+        <ol class="breadcrumb justify-content-center mb-0">
+            <li class="breadcrumb-item"><a href="/mypage">내 요청</a></li>
+            <li class="breadcrumb-item"><a href="/myinfo">내 정보</a></li>
+        </ol>
+    </div>
+    <!-- Single Page Header End -->
+
+
+    <div class="col-md-12 col-lg-12 col-xl-10">
+        <div class="table-responsive">
+            <!-- 내 영화 요청 -->
+            <div class="container py-6">
+                <div class="row justify-content-end">
+
+                    <div class="col-md-12 col-lg-7 col-xl-9" th:object="${reviews}">
+                        <!-- 주문 버튼 -->
+                        <div class="row g-4 text-center align-items-center justify-content-center pt-4">
+                            <button class="btn border-secondary py-3 px-4 text-uppercase w-100 text-primary">내 요청 목록</button>
+                        </div>
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th scope="col">No.</th>
+                                <th scope="col">날짜</th>
+                                <th scope="col">영화 제목</th>
+                                <th scope="col">평점</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="review, rowStat : ${reviews}">
+                                <th scope="row" th:text="${rowStat.index + 1}"></th>
+<!--                                <td class="py-5"><span th:text="${review.createdDate}"></span></td>-->
+                                <td class="py-5"><span th:text="${#dates.format(review.createdDate, 'yyyy-MM-dd')}"></span></td>
+                                <td class="py-5"><span th:text="${review.reviewTitle}"></span></td>
+                                <td class="py-5"><span th:text="${review.reviewScore}"></span></td>
+                            </tr>
+
+                            <!-- 다음 행들도 동일한 구조로 추가 -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 내 리뷰 -->
+            <div class="container py-6">
+                <div class="row justify-content-end">
+                    <div class="col-md-12 col-lg-7 col-xl-9" th:object="${movies}">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th scope="col">No.</th>
+                                <th scope="col">요청한 영화</th>
+                                <th scope="col">대기상태</th>
+                                <th scope="col">요청날짜</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="movie, rowStat : ${movies}">
+                                <th scope="row" th:text="${rowStat.index + 1}"></th>
+                                <td class="py-5"><span th:text="${movie.requestMovieTitle}"></span></td>
+                                <td class="py-5"><span th:if="${movie.requestStatus == T(com.keduit.board.constant.RequestStatus).PENDING}"
+                                    class="mb-2">대기</span>
+                                    <span th:if="${movie.requestStatus == T(com.keduit.board.constant.RequestStatus).APPROVED}"
+                                          class="mb-2">승인</span>
+                                    <span th:if="${movie.requestStatus == T(com.keduit.board.constant.RequestStatus).REJECTED}"
+                                          class="mb-2">거절</span>
+                                </td>
+                                <td class="py-5"><span th:text="${#dates.format(movie.createdDate, 'yyyy-MM-dd')}"></span></td>
+                            </tr>
+
+                            <!-- 다음 행들도 동일한 구조로 추가 -->
+                            </tbody>
+                        </table>
+
+
+                    </div>
+                </div>
+            </div>
+<!--margin 설정 3개 닫는거-->
+
+        </div>
+    </div>
+
+</div>
+</html>

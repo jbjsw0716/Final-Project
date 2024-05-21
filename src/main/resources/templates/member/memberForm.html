@@ -1,0 +1,61 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout='http://www.ultraq.net.nz/thymeleaf/layout'
+      layout:decorate='~{layouts/layout1}'>
+<!--타임리프 사용하는거 가져오기-->
+
+<!--<th:block layout:fragment="script">
+    <script th:inline="javascript">
+        $(document).ready(function() {
+            const errorMessage = [[${errorMessage}]]
+                if(errorMessage != null){
+                alert(errorMessage);
+                }
+        })
+    </script>
+</th:block>-->
+
+<div layout:fragment="content">
+    <!-- Checkout Page Start -->
+    <div class="container-fluid py-5 mt-4">
+        <div class="container py-5">
+            <h1 class="mb-4 mt-5 text-center">회원가입</h1>
+            <form action="/members/new" role="form" method="post" th:object="${memberFormDTO}">
+                <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 mx-auto">
+                    <div>
+                        <div class="form-item">
+                            <label class="form-label my-3" th:for="nickname">닉네임<sup>*</sup></label>
+                            <input type="text" class="form-control" th:field="*{nickname}" placeholder="닉네임을 입력하세요." autocomplete="username">
+                            <!--                                <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="fieldError">Incorrect data</p>-->
+                        </div>
+                        <div class="form-item">
+                            <label class="form-label my-3" th:for="email">이메일 <sup>*</sup></label>
+                            <input type="email" class="form-control" th:field="*{email}" placeholder="이메일을 입력하세요." autocomplete="email">
+                            <!--                                <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="fieldError">Incorrect data</p>-->
+                        </div>
+                        <div class="form-item">
+                            <label class="form-label my-3" th:for="password">비밀번호<sup>*</sup></label>
+                            <input type="password" class="form-control" th:field="*{password}" placeholder="비밀번호를 입력하세요." autocomplete="current-password">
+                            <!--                                <p th:if="${#fields.hasErrors('pwd')}" th:errors="*{pwd}" class="fieldError">Incorrect data</p>-->
+                        </div>
+                        <div class="form-item">
+                            <label class="form-label my-3">비밀번호 확인<sup>*</sup></label>
+                            <input type="password" id="password2" class="form-control mb-5" placeholder="비밀번호를 확인해주세요." autocomplete="current-password">
+                        </div>
+                        <!--                            <div class="form-check my-3">
+                                                        <input type="checkbox" class="form-check-input" id="Account-1" name="Accounts" value="Accounts">
+                                                        <label class="form-check-label" for="Account-1">Create an account?</label>
+                                                    </div>-->
+
+                        <div class="row g-4 text-center align-items-center justify-content-center pt-4">
+                            <button type="submit"
+                                    class="btn border-secondary py-3 px-4 text-uppercase w-100 text-primary">회원가입
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- Checkout Page End -->
+</div>
+</html>
